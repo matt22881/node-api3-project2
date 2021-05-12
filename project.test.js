@@ -26,11 +26,11 @@ describe('server.js', () => {
     it('can get the correct number of users', async () => {
       let res = await request(server).get('/api/users')
       expect(res.body).toHaveLength(initialUsers.length)
-    }, 500)
+    }, 2500)
     it('can get all the correct users', async () => {
       let res = await request(server).get('/api/users')
       expect(res.body).toMatchObject(initialUsers)
-    }, 500)
+    }, 2500)
   })
   describe('2 [GET] /api/users/:id', () => {
     it('can get the correct user', async () => {
@@ -40,7 +40,7 @@ describe('server.js', () => {
       res = await request(server).get('/api/users/2')
       expect(res.body).toMatchObject(initialUsers[1])
       expect(res.body).toHaveProperty('id')
-    }, 500)
+    }, 2500)
     it('responds with a 404 if id does not exist', async () => {
       let res = await request(server).get('/api/users/111')
       expect(res.status).toBe(404)
