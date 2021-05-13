@@ -5,6 +5,7 @@ module.exports = {
   validateUserId,
   validateUser,
   validatePostId,
+  validateUserPost,
   validatePost
 }
 
@@ -57,7 +58,7 @@ function validatePostId(req, res, next) {
     })
 }
 
-function validatePost(req, res, next) {
+function validateUserPost(req, res, next) {
   // DO YOUR MAGIC
   if (!req.body || Object.keys(req.body).length === 0){
     res.status(400).json( { message: "missing post data" })
@@ -66,6 +67,13 @@ function validatePost(req, res, next) {
         res.status(400).json({ message: "missing required text field" })
     } else next()
   }
+}
+
+function validatePost(req, res, next) {
+  // DO YOUR MAGIC
+  if (!req.body.user_id || !req.body.text || req.body.user_id.length ===0 || req.body.text.length === 0) {
+    res.status(400).json( { message: "missing post data" })
+  } else next()
 }
 
 // do not forget to expose these functions to other modules

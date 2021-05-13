@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express')
 
 // You will need `users-model.js` and `posts-model.js` both
 // The middleware functions also need to be required
@@ -6,18 +6,18 @@ const express = require('express');
 const Users = require('./users-model')
 const Posts = require('./../posts/posts-model')
 
-const { validateUser, validateUserId, validatePost }   = require('./../middleware/middleware')
+const { validateUser, validateUserId, validateUserPost }   = require('./../middleware/middleware')
 
 
-const router = express.Router();
+const router = express.Router()
 
 router.get('/', (req, res) => {
   // RETURN AN ARRAY WITH ALL THE USERS
   Users.get()
     .then(users => {
       res.json(users)
-    });
-});
+    })
+})
 
 router.get('/:id', validateUserId, (req, res) => {
   // RETURN THE USER OBJECT
@@ -26,7 +26,7 @@ router.get('/:id', validateUserId, (req, res) => {
     .then(user => {
       res.json(user)
     })
-});
+})
 
 router.post('/', validateUser, (req, res) => {
   // RETURN THE NEWLY CREATED USER OBJECT
@@ -54,7 +54,7 @@ router.put('/:id', validateUserId, validateUser, (req, res) => {
   .catch(err => {
     res.status(500).json({message: 'error updating the user'})
   })
-});
+})
 
 router.delete('/:id', validateUserId, (req, res) => {
   // RETURN THE FRESHLY DELETED USER OBJECT
@@ -66,7 +66,7 @@ router.delete('/:id', validateUserId, (req, res) => {
   .catch(err => {
     res.status(500).json({message:"There was an error removing the User", error: err})
   })
-});
+})
 
 router.get('/:id/posts', validateUserId, (req, res) => {
   // RETURN THE ARRAY OF USER POSTS
@@ -75,9 +75,9 @@ router.get('/:id/posts', validateUserId, (req, res) => {
   .then(posts => {
     res.json(posts)
   })
-});
+})
 
-router.post('/:id/posts', validateUserId, validatePost, (req, res) => {
+router.post('/:id/posts', validateUserId, validateUserPost, (req, res) => {
   // RETURN THE NEWLY CREATED USER POST
   // this needs a middleware to verify user id
   // and another middleware to check that the request body is valid
@@ -89,7 +89,7 @@ router.post('/:id/posts', validateUserId, validatePost, (req, res) => {
     .catch(err => {
       res.status(500).json({message:"Error adding post to the database.", error: err})
     })
-});
+})
 
 // do not forget to export the router
 module.exports = router
